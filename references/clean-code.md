@@ -132,7 +132,7 @@ function canApproveRequest(input: ApprovalInput): boolean {
 
 文件超过 300 行时必须评估拆分。类型声明和必要注释可不计入，但展示逻辑、状态管理、数据转换都计入复杂度。
 
-拆分顺序：
+按职责拆分建议：
 
 1. 将纯数据转换提取到 `utils` 或同目录 helper。
 2. 将常量、枚举和 Registry 提取到 `constants` 目录或同目录 `constants.ts`，不得放入 `utils`。
