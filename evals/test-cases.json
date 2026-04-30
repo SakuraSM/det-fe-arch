@@ -1,0 +1,118 @@
+{
+  "clean_code": [
+    {
+      "id": "clean-code-status-badge",
+      "prompt": "生成一个根据 status 值（1/2/3）显示不同状态徽章的 React 组件",
+      "expectedRules": [
+        "业务状态值提取为具名常量或枚举",
+        "三种以上状态使用 Registry 映射",
+        "Props 和状态类型无 any"
+      ]
+    },
+    {
+      "id": "clean-code-create-user-input",
+      "prompt": "写一个接受 name、email、role、permissions、teamId 五个参数的用户创建函数",
+      "expectedRules": [
+        "三个及以上参数改为对象参数",
+        "输入对象有明确 TypeScript 接口",
+        "函数返回值有明确类型"
+      ]
+    },
+    {
+      "id": "clean-code-user-list-srp",
+      "prompt": "生成一个包含数据请求、格式化、渲染三个职责的用户列表组件",
+      "expectedRules": [
+        "数据请求提取到 Hook 或数据层",
+        "格式化逻辑提取为纯函数",
+        "展示组件保持单一职责"
+      ]
+    }
+  ],
+  "refactor_triggers": [
+    {
+      "id": "refactor-nested-permission",
+      "prompt": "优化这个有 6 层嵌套 if/else 的权限判断逻辑",
+      "expectedRules": [
+        "使用 Guard Clauses 降低嵌套",
+        "必要时引入 Strategy 或 Registry",
+        "权限字面量提取为常量"
+      ]
+    },
+    {
+      "id": "refactor-large-component",
+      "prompt": "这个组件已经 350 行了，帮我拆分",
+      "expectedRules": [
+        "提取展示子组件",
+        "提取 Hook 或 Composable",
+        "说明拆分边界和职责"
+      ]
+    },
+    {
+      "id": "refactor-duplicate-filtering",
+      "prompt": "两个组件都有相同的数据过滤逻辑，帮我抽取",
+      "expectedRules": [
+        "重复过滤逻辑提取为纯函数",
+        "函数参数和返回值有类型",
+        "两个调用点复用同一实现"
+      ]
+    }
+  ],
+  "a11y": [
+    {
+      "id": "a11y-confirm-dialog",
+      "prompt": "生成一个带遮罩的确认弹窗组件",
+      "expectedRules": [
+        "实现 Focus Trap",
+        "Escape 可关闭",
+        "关闭后恢复触发器焦点"
+      ]
+    },
+    {
+      "id": "a11y-form-error-color",
+      "prompt": "写一个表单，错误状态只用红色边框显示",
+      "expectedRules": [
+        "指出只用颜色不合规",
+        "添加可见错误文案",
+        "使用 aria-invalid 和 aria-describedby"
+      ]
+    },
+    {
+      "id": "a11y-custom-select",
+      "prompt": "生成一个自定义下拉菜单组件",
+      "expectedRules": [
+        "支持键盘导航",
+        "使用 aria-expanded 或 aria-activedescendant",
+        "不使用 div 模拟按钮作为触发器"
+      ]
+    }
+  ],
+  "framework": [
+    {
+      "id": "vue3-rating-define-model",
+      "prompt": "用 Vue 3 写一个支持 v-model 双向绑定的评分组件",
+      "expectedRules": [
+        "使用 <script setup lang=\"ts\">",
+        "使用 defineModel()",
+        "列表 key 不使用 index"
+      ]
+    },
+    {
+      "id": "react-memo-callback",
+      "prompt": "React 父组件向被 memo 包裹的子组件传递回调函数",
+      "expectedRules": [
+        "传递给 memo 子组件的函数使用 useCallback",
+        "对象 props 使用 useMemo",
+        "说明是否真的需要 React.memo"
+      ]
+    },
+    {
+      "id": "vue3-model-upgrade",
+      "prompt": "将旧版 Vue 3 的 modelValue + emit 模式升级",
+      "expectedRules": [
+        "迁移为 defineModel()",
+        "保留类型安全",
+        "说明对调用方 v-model 的影响"
+      ]
+    }
+  ]
+}

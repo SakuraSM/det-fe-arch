@@ -1,0 +1,74 @@
+{
+  "clean_code": [
+    {
+      "id": "no-business-magic-values",
+      "assertion": "输出不包含未命名的业务魔术数字或业务状态字符串"
+    },
+    {
+      "id": "object-params-for-three-plus",
+      "assertion": "三参数以上函数使用对象解构或对象参数"
+    },
+    {
+      "id": "strategy-for-complex-conditions",
+      "assertion": "条件嵌套超过 3 层或分支超过 3 个时引入映射、策略模式或 Guard Clauses"
+    },
+    {
+      "id": "no-any",
+      "assertion": "TypeScript 输出不使用 any"
+    }
+  ],
+  "a11y": [
+    {
+      "id": "dialog-focus-trap",
+      "assertion": "弹窗组件包含 Focus Trap、Escape 关闭和焦点恢复"
+    },
+    {
+      "id": "error-not-color-only",
+      "assertion": "错误提示除颜色外包含可见文字说明和 aria 关联"
+    },
+    {
+      "id": "custom-control-keyboard",
+      "assertion": "自定义交互元素有键盘操作、正确 role 和状态属性"
+    },
+    {
+      "id": "semantic-button",
+      "assertion": "按钮交互优先使用 button 元素而不是 div/span 模拟"
+    }
+  ],
+  "react": [
+    {
+      "id": "memo-callback-stability",
+      "assertion": "传递给 memo 子组件的函数使用 useCallback 包裹"
+    },
+    {
+      "id": "no-jsx-inline-anonymous-function",
+      "assertion": "JSX 中不存在不必要的内联匿名函数"
+    },
+    {
+      "id": "stable-list-key",
+      "assertion": "key 属性使用稳定业务 ID，不使用数组 index"
+    },
+    {
+      "id": "context-value-memoized",
+      "assertion": "Context value 中的对象或函数使用 useMemo/useCallback 稳定引用"
+    }
+  ],
+  "vue3": [
+    {
+      "id": "script-setup",
+      "assertion": "使用 <script setup lang=\"ts\"> 语法"
+    },
+    {
+      "id": "define-model",
+      "assertion": "双向绑定使用 defineModel() 而非 modelValue + emit"
+    },
+    {
+      "id": "no-v-if-v-for-same-node",
+      "assertion": "v-if 和 v-for 不在同一标签上"
+    },
+    {
+      "id": "scoped-style",
+      "assertion": "组件样式默认使用 scoped 或等效作用域隔离"
+    }
+  ]
+}

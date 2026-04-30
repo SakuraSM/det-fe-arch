@@ -1,0 +1,32 @@
+{
+  "name": "deterministic-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Deterministic Frontend Architect skill package for production-grade frontend code constraints.",
+  "type": "module",
+  "scripts": {
+    "check:json": "node -e \"for (const file of ['evals/test-cases.json', 'evals/assertions.json', 'package.json']) JSON.parse(require('fs').readFileSync(file, 'utf8'))\"",
+    "check:shell": "bash -n scripts/lint-check.sh scripts/scaffold.sh scripts/a11y-audit.sh",
+    "check": "npm run check:json && npm run check:shell",
+    "scaffold:react": "scripts/scaffold.sh react ExampleCard",
+    "scaffold:vue": "scripts/scaffold.sh vue ExampleCard"
+  },
+  "keywords": [
+    "agent-skill",
+    "frontend",
+    "react",
+    "vue",
+    "a11y",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.57.1",
+    "typescript": "^5.4.5"
+  }
+}
