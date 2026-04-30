@@ -62,10 +62,16 @@ if (status === STATUS_APPROVED) {
 |---|---|
 | `if/else` 嵌套 > 3 层 | 引入 Guard Clauses、Registry 或 Strategy 映射 |
 | `switch` 分支 >= 3 | 引入组件字典、策略对象或多态结构 |
-| 组件或文件 > 200 行 | Extract Component / Extract Method / Extract Hook / Extract Composable |
+| 组件或文件 > 300 行 | Extract Component / Extract Method / Extract Hook / Extract Composable |
 | 逻辑重复 >= 2 处 | 提取 Utility、Custom Hook、Composable 或共享配置 |
 | JSX/模板条件渲染过深 | 拆出子组件或渲染映射 |
 | 数据请求、格式化、渲染同处一组件 | 分离数据层、转换层、展示层 |
+
+## 目录职责划分（强制）
+
+- 按职责划分模块：`components` 只放展示组件，`hooks` / `composables` 只放状态与副作用封装，`services` / `api` 只放数据请求，`types` 只放类型声明，`constants` 只放业务常量、枚举和 Registry。
+- `utils` 仅用于无业务状态的纯函数，不得存放常量、枚举、Registry、组件或请求逻辑。
+- 抽取模块时优先使用清晰职责目录或同目录职责文件，例如 `constants.ts`、`types.ts`、`utils.ts`，不要把不同职责混入单个工具文件。
 
 ## TypeScript 安全（强制）
 

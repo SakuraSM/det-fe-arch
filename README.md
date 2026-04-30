@@ -64,7 +64,7 @@ OUTPUT_DIR=app/components ./scripts/scaffold.sh react UserCard
 
 1. `tsc --noEmit --strict`
 2. ESLint 规则：禁止 `any`、魔术数字告警、参数数量告警
-3. `.tsx` / `.vue` 组件 200 行阈值检查
+3. `.tsx` / `.vue` 组件 300 行阈值检查
 
 ### 运行 A11y 审计
 

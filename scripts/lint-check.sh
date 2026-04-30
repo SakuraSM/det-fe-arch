@@ -6,7 +6,7 @@ set -euo pipefail
 TARGET=${1:-.}
 ERRORS=0
 WARNINGS=0
-MAX_COMPONENT_LINES=${MAX_COMPONENT_LINES:-200}
+MAX_COMPONENT_LINES=${MAX_COMPONENT_LINES:-300}
 
 report_error() {
   echo "❌ $1"

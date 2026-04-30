@@ -130,11 +130,13 @@ function canApproveRequest(input: ApprovalInput): boolean {
 
 ## 文件与组件拆分
 
-文件超过 200 行时必须评估拆分。类型声明和必要注释可不计入，但展示逻辑、状态管理、数据转换都计入复杂度。
+文件超过 300 行时必须评估拆分。类型声明和必要注释可不计入，但展示逻辑、状态管理、数据转换都计入复杂度。
 
 拆分顺序：
 
 1. 将纯数据转换提取到 `utils` 或同目录 helper。
-2. 将状态副作用提取到 Hook/Composable。
-3. 将独立视觉区块提取为子组件。
-4. 将常量和 Registry 提取到明确命名的模块。
+2. 将常量、枚举和 Registry 提取到 `constants` 目录或同目录 `constants.ts`，不得放入 `utils`。
+3. 将类型声明提取到 `types` 目录或同目录 `types.ts`。
+4. 将状态副作用提取到 Hook/Composable。
+5. 将数据请求提取到 `services` / `api`。
+6. 将独立视觉区块提取为子组件。
