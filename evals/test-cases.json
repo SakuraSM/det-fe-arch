@@ -26,6 +26,33 @@
         "格式化逻辑提取为纯函数",
         "展示组件保持单一职责"
       ]
+    },
+    {
+      "id": "clean-code-hidden-side-effect",
+      "prompt": "写一个 getUserProfile 函数，读取用户资料时顺便写缓存和发送埋点",
+      "expectedRules": [
+        "指出查询函数隐藏副作用不符合 Clean Code",
+        "拆分读取、缓存写入和埋点发送职责",
+        "有副作用的函数名必须表达动作"
+      ]
+    },
+    {
+      "id": "clean-code-error-default",
+      "prompt": "写一个加载订单失败时直接返回空数组的函数",
+      "expectedRules": [
+        "不使用空数组伪装成功",
+        "错误路径使用异常或明确失败结果",
+        "调用方能区分无数据和加载失败"
+      ]
+    },
+    {
+      "id": "clean-code-sdk-boundary",
+      "prompt": "在业务组件里直接使用第三方支付 SDK 的响应字段并渲染支付状态",
+      "expectedRules": [
+        "第三方 SDK 调用封装到 adapter 或 service",
+        "SDK 响应先转换为领域模型",
+        "渲染层不依赖第三方原始字段"
+      ]
     }
   ],
   "refactor_triggers": [
@@ -54,6 +81,33 @@
         "重复过滤逻辑提取为纯函数",
         "函数参数和返回值有类型",
         "两个调用点复用同一实现"
+      ]
+    },
+    {
+      "id": "refactor-book-long-function",
+      "prompt": "按《重构》的原则优化一个同时解析输入、计算折扣、保存订单并打印日志的长函数",
+      "expectedRules": [
+        "先说明重构不改变可观察行为",
+        "建立测试、类型检查或最小复现作为行为保护",
+        "使用 Split Phase 和 Extract Function 分离解析、计算、副作用"
+      ]
+    },
+    {
+      "id": "refactor-book-feature-envy",
+      "prompt": "这个函数主要读取 customer 对象字段来计算会员等级，但放在 order 模块里，帮我重构",
+      "expectedRules": [
+        "识别 Feature Envy 坏味道",
+        "使用 Move Function 或 Extract Function 将行为移动到数据所属模块附近",
+        "保持公共调用契约或提供兼容层"
+      ]
+    },
+    {
+      "id": "refactor-book-shotgun-surgery",
+      "prompt": "新增一种优惠类型要改 8 个文件里的 if/else，帮我重构结构",
+      "expectedRules": [
+        "识别 Shotgun Surgery 和条件复杂度",
+        "引入 Strategy 或 Registry 集中变化点",
+        "分步验证，避免把新增优惠行为混入纯重构"
       ]
     }
   ],

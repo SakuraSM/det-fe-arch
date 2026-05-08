@@ -2,7 +2,7 @@
   "name": "deterministic-frontend",
   "version": "1.0.0",
   "private": true,
-  "description": "Deterministic Frontend Architect skill package for production-grade frontend code constraints.",
+  "description": "Deterministic code architecture skill package for production-grade React, Vue, TypeScript, Python, and refactoring constraints.",
   "type": "module",
   "scripts": {
     "check:json": "node -e \"for (const file of ['evals/test-cases.json', 'evals/assertions.json', 'package.json']) JSON.parse(require('fs').readFileSync(file, 'utf8'))\"",
@@ -20,7 +20,10 @@
     "typescript",
     "python",
     "ruff",
-    "mypy"
+    "mypy",
+    "refactoring",
+    "code-smells",
+    "clean-code"
   ],
   "engines": {
     "node": ">=16",

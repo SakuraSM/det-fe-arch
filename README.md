@@ -1,11 +1,12 @@
 # Deterministic Frontend Architect
 
-DFA（Deterministic Frontend Architect）把工程最佳实践沉淀为 Agent Skill、参考规则、脚本和模板，用于约束 AI 生成的 React/Vue 3/TypeScript/Python 代码。
+DFA（Deterministic Frontend Architect）把工程最佳实践沉淀为 Agent Skill、参考规则、脚本和模板，用于约束 AI 生成的 React/Vue 3/TypeScript/Python 代码，并用《重构》原则约束行为保持式结构优化。
 
 ## 目标
 
-- 减少 LLM 生成前端代码时的命名混乱、职责耦合、魔术值和框架反模式。
-- 对 React、Vue 3、Python、A11y、Clean Code 提供可按需加载的规则集。
+- 减少 LLM 生成代码时的命名混乱、职责耦合、魔术值和框架反模式。
+- 对 React、Vue 3、Python、A11y、Clean Code、Refactoring 提供可按需加载的规则集。
+- 将代码坏味道映射到小步、可验证、行为保持的重构手法。
 - 通过脚本执行 TypeScript、ESLint、Ruff、Mypy、行数和 A11y 后置检查。
 - 通过模板让新组件默认具备类型安全、语义化 HTML 和可访问焦点样式。
 
@@ -16,6 +17,7 @@ DFA（Deterministic Frontend Architect）把工程最佳实践沉淀为 Agent Sk
 ├── SKILL.md
 ├── references/
 │   ├── clean-code.md
+│   ├── refactoring.md
 │   ├── a11y.md
 │   ├── python.md
 │   ├── react.md
@@ -31,14 +33,14 @@ DFA（Deterministic Frontend Architect）把工程最佳实践沉淀为 Agent Sk
 │   ├── test-cases.json
 │   └── assertions.json
 ├── package.json
-└── tech-doc.md
+└── package-lock.json
 ```
 
 ## 使用方式
 
 ### 作为 Skill 使用
 
-将仓库内容安装到支持 Skill 的 Agent 环境中。触发前端生成、审查、重构、A11y 或框架架构任务时，Agent 应读取 `SKILL.md`，再按路由读取 `references/` 中的对应规则。
+将仓库内容安装到支持 Skill 的 Agent 环境中。触发代码生成、审查、重构、A11y 或框架架构任务时，Agent 应读取 `SKILL.md`，再按路由读取 `references/` 中的对应规则。
 
 ### 生成组件模板
 
@@ -55,7 +57,7 @@ OUTPUT_DIR=app/components ./scripts/scaffold.sh react UserCard
 
 ### 运行质量门禁
 
-在目标前端项目根目录运行：
+在目标项目根目录运行：
 
 ```bash
 ./scripts/lint-check.sh src/components/UserCard.tsx
@@ -63,10 +65,12 @@ OUTPUT_DIR=app/components ./scripts/scaffold.sh react UserCard
 
 检查内容：
 
-1. `tsc --noEmit --strict`
-2. ESLint 规则：禁止 `any`、魔术数字告警、参数数量告警
-3. Python 规则：可用时执行 `ruff check` 和 `mypy --strict`
-4. `.tsx` / `.vue` 组件 300 行阈值检查
+1. TypeScript 项目级类型检查：目录目标默认运行 `tsc --noEmit --strict`；单文件目标默认跳过，可用 `DFA_PROJECT_TSC=1` 强制开启。
+2. ESLint 单文件/目标文件检查：禁止 `any`、魔术数字告警、参数数量告警。
+3. Python 单文件/目标文件检查：可用时执行 `ruff check` 和 `mypy --strict`。
+4. `.ts` / `.tsx` / `.vue` / `.py` 文件 300 行阈值检查。
+
+脚本会跳过 `node_modules`、`dist`、`build`、`coverage`、`.venv` 等常见生成目录。
 
 ### 运行 A11y 审计
 
@@ -85,7 +89,7 @@ npm install
 npm run check
 ```
 
-`npm run check` 会校验 JSON 文件和 shell 脚本语法。前端项目级 ESLint、TypeScript 和 A11y 扫描应在目标项目中运行。
+`npm run check` 会校验 JSON 文件和 shell 脚本语法。项目级 ESLint、TypeScript、Ruff、Mypy 和 A11y 扫描应在目标项目中运行。
 
 ## 依赖要求
 
@@ -100,6 +104,7 @@ npm run check
 | 维度 | 文件 | 重点 |
 |---|---|---|
 | 通用工程纪律 | `SKILL.md`、`references/clean-code.md` | 命名、魔术值、职责拆分、重构触发器、类型安全 |
+| 重构 | `references/refactoring.md` | 行为保持、小步验证、代码坏味道、重构手法映射 |
 | React | `references/react.md` | 状态共置、Context 范围、Hook 契约、memo 决策、稳定 key |
 | Vue 3 | `references/vue3.md` | `<script setup>`、`defineModel`、Composable、模板规则、Style Guide A/B |
 | Python | `references/python.md` | 类型标注、数据模型、异常处理、异步边界、pytest、Ruff/Mypy |
@@ -114,7 +119,7 @@ npm run check
 生成 `.skill` 包：
 
 ```bash
-zip -r deterministic-frontend.skill SKILL.md references scripts templates evals README.md package.json tech-doc.md
+zip -r deterministic-frontend.skill SKILL.md references scripts templates evals README.md package.json package-lock.json .gitignore
 ```
 
 打包前建议运行 `npm run check` 并确认脚本具备执行权限。

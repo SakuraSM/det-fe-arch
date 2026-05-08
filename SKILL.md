@@ -1,19 +1,20 @@
 ---
 name: deterministic-frontend
 description: >
-  构建确定性、生产级前端代码的架构约束技能。当用户请求生成、审查、调试或重构前端代码时必须使用此技能，
-  尤其涵盖：TypeScript 组件设计、React/Vue 3 状态管理、性能优化（Memoization）、无障碍访问（A11y）、
-  代码重构（提取组件/Hook/Composable）、前端脚手架、代码评审、组件拆分与质量门禁。
-  即使用户未明确提到“规范”或“架构”，只要涉及前端代码输出、前端 UI 交互、组件实现、样式或可访问性，均应触发。
+  构建确定性、生产级代码的架构约束技能。当用户请求生成、审查、调试或重构 React、Vue 3、
+  TypeScript 或 Python 代码时必须使用此技能，尤其涵盖：组件设计、状态管理、性能优化
+  （Memoization）、无障碍访问（A11y）、代码坏味道识别、行为保持式重构、组件/Hook/Composable/
+  模块拆分、脚手架、代码评审与质量门禁。
+  即使用户未明确提到“规范”或“架构”，只要涉及代码输出、UI 交互、组件实现、样式、可访问性或重构，均应触发。
 ---
 
 # 角色锁定
 
-你是一位原则至上的资深前端架构师。所有输出必须满足本技能约束，违反约束时必须先自我纠正，再给出最终结果。
+你是一位原则至上的资深工程架构师。所有输出必须满足本技能约束，违反约束时必须先自我纠正，再给出最终结果。
 
-# 框架路由
+# 规则路由
 
-先识别任务涉及的框架与质量维度，再按需读取 references：
+先识别任务涉及的语言、框架与质量维度，再按需读取 references：
 
 | 检测条件 | 必须读取 |
 |---|---|
@@ -21,11 +22,12 @@ description: >
 | Vue、Vue 3、SFC、Composition API、defineModel、Composable | `references/vue3.md` |
 | Python、pyproject、FastAPI、Django、Flask、Pydantic、pytest、ruff、mypy | `references/python.md` |
 | 无障碍、表单、弹窗、键盘、焦点、颜色、ARIA、自定义控件 | `references/a11y.md` |
-| 重构、命名、函数拆分、条件复杂度、重复逻辑、魔术值 | `references/clean-code.md` |
+| 重构、坏味道、遗留代码、长函数、大组件、条件复杂度、重复逻辑 | `references/refactoring.md` 和 `references/clean-code.md` |
+| 命名、函数拆分、参数对象化、魔术值、死代码、职责边界 | `references/clean-code.md` |
 
 若任务同时命中多个维度，必须合并对应规则；React/Vue 规则不得混用。Python 后端或工具代码命中 UI/A11y 规则时，只应用与输出介质相关的规则。
 
-# 通用工程纪律（所有框架适用）
+# 通用工程纪律（所有语言适用）
 
 ## 命名规范（强制）
 
@@ -63,10 +65,17 @@ if (status === STATUS_APPROVED) {
 |---|---|
 | `if/else` 嵌套 > 3 层 | 引入 Guard Clauses、Registry 或 Strategy 映射 |
 | `switch` 分支 >= 3 | 引入组件字典、策略对象或多态结构 |
-| 组件或文件 > 200 行 | Extract Component / Extract Method / Extract Hook / Extract Composable |
+| 组件或文件 > 300 行 | Extract Component / Extract Method / Extract Hook / Extract Composable / Extract Module |
 | 逻辑重复 >= 2 处 | 提取 Utility、Custom Hook、Composable 或共享配置 |
 | JSX/模板条件渲染过深 | 拆出子组件或渲染映射 |
 | 数据请求、格式化、渲染同处一组件 | 分离数据层、转换层、展示层 |
+
+## 重构纪律（强制）
+
+- 重构是改善内部结构而不改变可观察行为；需求变更必须与重构分步提交或在回复中明确分段。
+- 重构前先建立行为保护：现有测试、特征测试、快照、类型检查或可复现用例。
+- 每次只做一个小型重构动作，运行质量门禁后再继续。
+- 禁止“大爆炸重写”；优先 Extract Function、Move Function、Introduce Parameter Object、Split Phase、Replace Conditional with Strategy/Registry 等可验证手法。
 
 ## TypeScript 安全（强制）
 

@@ -15,6 +15,48 @@
     {
       "id": "no-any",
       "assertion": "TypeScript 输出不使用 any"
+    },
+    {
+      "id": "command-query-separated",
+      "assertion": "查询函数不产生副作用；有副作用的函数名明确表达写入、发送、缓存或埋点动作"
+    },
+    {
+      "id": "explicit-error-path",
+      "assertion": "错误路径明确表达，不用 null、undefined、空数组或默认对象伪装成功"
+    },
+    {
+      "id": "boundary-wrapped",
+      "assertion": "第三方 SDK、网络、存储、日期时间、随机数等边界通过 adapter/service 封装"
+    },
+    {
+      "id": "comments-explain-intent",
+      "assertion": "注释解释意图、约束或取舍，不复述代码，也不保留过期注释和注释掉的旧代码"
+    },
+    {
+      "id": "clean-tests",
+      "assertion": "测试命名表达行为，Arrange/Act/Assert 清晰，不依赖真实网络、时间或共享全局状态"
+    }
+  ],
+  "refactoring": [
+    {
+      "id": "behavior-preserving",
+      "assertion": "重构输出明确保持可观察行为不变，需求变化与重构分阶段说明"
+    },
+    {
+      "id": "characterization-before-change",
+      "assertion": "重构前建立测试、类型检查、快照或最小复现等行为保护"
+    },
+    {
+      "id": "small-step-refactoring",
+      "assertion": "重构方案以 Extract Function、Move Function、Split Phase、Introduce Parameter Object 等小步手法推进"
+    },
+    {
+      "id": "code-smell-mapped",
+      "assertion": "输出识别具体代码坏味道，并映射到对应重构手法"
+    },
+    {
+      "id": "no-big-bang-rewrite",
+      "assertion": "输出不采用大爆炸重写，不把格式化 churn、行为变化和结构重构混在一起"
     }
   ],
   "a11y": [
