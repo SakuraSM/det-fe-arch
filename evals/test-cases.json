@@ -114,5 +114,34 @@
         "说明对调用方 v-model 的影响"
       ]
     }
+  ],
+  "python": [
+    {
+      "id": "python-create-user-input",
+      "prompt": "用 Python 写一个接受 name、email、role、permissions、team_id 五个参数的用户创建函数",
+      "expectedRules": [
+        "三个及以上业务参数合并为 dataclass、Pydantic 模型或 keyword-only 参数",
+        "公共函数参数和返回值有明确类型标注",
+        "不使用 Any 或裸 dict/list 作为公共契约"
+      ]
+    },
+    {
+      "id": "python-order-status",
+      "prompt": "生成一个根据订单状态字符串 approved/rejected/pending 返回不同文案的 Python 函数",
+      "expectedRules": [
+        "状态值使用 Enum、Literal 或具名常量",
+        "三种以上状态使用映射而不是复杂条件链",
+        "未知状态有明确错误路径"
+      ]
+    },
+    {
+      "id": "python-file-importer",
+      "prompt": "写一个读取 CSV 文件、解析数据、保存到数据库并打印结果的 Python 脚本",
+      "expectedRules": [
+        "文件路径使用 pathlib.Path",
+        "读取、解析、保存、输出拆分为单一职责函数",
+        "I/O 和数据库错误显式处理或向上抛出领域异常"
+      ]
+    }
   ]
 }

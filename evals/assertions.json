@@ -70,5 +70,27 @@
       "id": "scoped-style",
       "assertion": "组件样式默认使用 scoped 或等效作用域隔离"
     }
+  ],
+  "python": [
+    {
+      "id": "typed-public-api",
+      "assertion": "Python 公共函数、方法和数据模型包含参数与返回类型标注"
+    },
+    {
+      "id": "no-python-any",
+      "assertion": "Python 输出不使用 Any、cast() 或 type: ignore 掩盖类型问题"
+    },
+    {
+      "id": "structured-python-data",
+      "assertion": "多字段数据使用 dataclass、TypedDict、Pydantic 模型或明确类型结构，不使用裸 dict 作为公共契约"
+    },
+    {
+      "id": "explicit-python-errors",
+      "assertion": "Python I/O、网络、数据库或外部 API 错误有具体异常处理或明确向上抛出"
+    },
+    {
+      "id": "ruff-mypy-gate",
+      "assertion": "Python 代码修改后建议或执行 Ruff 与 Mypy 检查，并说明跳过项"
+    }
   ]
 }

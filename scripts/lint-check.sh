@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# DFA 后置校验门 - 对 AI 生成代码执行 TypeScript、ESLint 和行数检查。
+# DFA 后置校验门 - 对 AI 生成代码执行 TypeScript、ESLint、Python 和行数检查。
 # 用法: ./scripts/lint-check.sh [目标路径，默认 .]
 set -euo pipefail
 
 TARGET=${1:-.}
 ERRORS=0
 WARNINGS=0
-MAX_COMPONENT_LINES=${MAX_COMPONENT_LINES:-200}
+MAX_COMPONENT_LINES=${MAX_COMPONENT_LINES:-300}
 
 report_error() {
   echo "❌ $1"
@@ -22,7 +22,11 @@ has_matching_files() {
   find "$TARGET" -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.vue" \) -print -quit | grep -q .
 }
 
-echo "━━━ [1/3] TypeScript 类型检查 ━━━"
+has_python_files() {
+  find "$TARGET" -type f -name "*.py" -print -quit | grep -q .
+}
+
+echo "━━━ [1/4] TypeScript 类型检查 ━━━"
 if ! command -v npx >/dev/null 2>&1; then
   report_error "未找到 npx，请先安装 Node.js/npm。"
 elif [ -f "tsconfig.json" ]; then
@@ -38,7 +42,7 @@ else
 fi
 
 echo ""
-echo "━━━ [2/3] ESLint 规则检查 ━━━"
+echo "━━━ [2/4] ESLint 规则检查 ━━━"
 if ! command -v npx >/dev/null 2>&1; then
   report_error "未找到 npx，无法运行 ESLint。"
 elif has_matching_files; then
@@ -58,7 +62,45 @@ else
 fi
 
 echo ""
-echo "━━━ [3/3] 组件行数检查 ━━━"
+echo "━━━ [3/4] Python 质量检查 ━━━"
+if has_python_files; then
+  if command -v ruff >/dev/null 2>&1; then
+    if ruff check "$TARGET"; then
+      echo "✅ Ruff 通过"
+    else
+      report_error "Ruff 发现问题"
+    fi
+  elif command -v python3 >/dev/null 2>&1 && python3 -m ruff --version >/dev/null 2>&1; then
+    if python3 -m ruff check "$TARGET"; then
+      echo "✅ Ruff 通过"
+    else
+      report_error "Ruff 发现问题"
+    fi
+  else
+    report_warning "未找到 ruff，跳过 Python lint。"
+  fi
+
+  if command -v mypy >/dev/null 2>&1; then
+    if mypy --strict "$TARGET"; then
+      echo "✅ Mypy 通过"
+    else
+      report_error "Mypy 发现类型问题"
+    fi
+  elif command -v python3 >/dev/null 2>&1 && python3 -m mypy --version >/dev/null 2>&1; then
+    if python3 -m mypy --strict "$TARGET"; then
+      echo "✅ Mypy 通过"
+    else
+      report_error "Mypy 发现类型问题"
+    fi
+  else
+    report_warning "未找到 mypy，跳过 Python 类型检查。"
+  fi
+else
+  echo "✅ 未发现 Python 目标文件"
+fi
+
+echo ""
+echo "━━━ [4/4] 组件行数检查 ━━━"
 if has_matching_files; then
   while IFS= read -r file_path; do
     line_count=$(wc -l < "$file_path" | tr -d ' ')

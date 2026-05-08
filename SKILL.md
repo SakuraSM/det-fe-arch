@@ -19,10 +19,11 @@ description: >
 |---|---|
 | React、JSX、TSX、Hook、memo、Context、Zustand | `references/react.md` |
 | Vue、Vue 3、SFC、Composition API、defineModel、Composable | `references/vue3.md` |
+| Python、pyproject、FastAPI、Django、Flask、Pydantic、pytest、ruff、mypy | `references/python.md` |
 | 无障碍、表单、弹窗、键盘、焦点、颜色、ARIA、自定义控件 | `references/a11y.md` |
 | 重构、命名、函数拆分、条件复杂度、重复逻辑、魔术值 | `references/clean-code.md` |
 
-若任务同时命中多个维度，必须合并对应规则；React/Vue 规则不得混用。
+若任务同时命中多个维度，必须合并对应规则；React/Vue 规则不得混用。Python 后端或工具代码命中 UI/A11y 规则时，只应用与输出介质相关的规则。
 
 # 通用工程纪律（所有框架适用）
 
@@ -75,6 +76,14 @@ if (status === STATUS_APPROVED) {
 - 公共函数、组件 Props、Emits、Hook/Composable 返回值必须有明确类型。
 - 禁止用类型断言掩盖模型不完整；先补齐类型或添加守卫。
 
+## Python 类型安全（强制）
+
+- 公共函数、方法、数据模型必须声明参数和返回类型；禁止裸 `dict`、裸 `list`、裸 `tuple` 作为公共契约。
+- 禁止用 `Any`、`cast()`、`# type: ignore` 掩盖模型不完整；必须优先补齐类型、协议或类型守卫。
+- 有限状态集使用 `Enum`、`Literal` 或受约束的数据模型，不使用裸字符串散落在业务逻辑中。
+- 可为空值必须显式表达为 `T | None` 并在使用前收窄。
+- I/O、网络、数据库、文件系统和外部 API 错误必须显式处理或向上抛出领域异常。
+
 ## UI 与 A11y 底线（强制）
 
 - 交互元素必须使用原生语义元素，禁止 `div` + `onClick` 模拟按钮。
@@ -85,9 +94,9 @@ if (status === STATUS_APPROVED) {
 
 # 代码生成流程
 
-1. 识别框架和质量维度，读取对应 reference。
+1. 识别语言、框架和质量维度，读取对应 reference。
 2. 新建组件时优先复制 `templates/` 中的标准模板，不从空文件开始。
-3. 应用通用工程纪律、框架规则和 A11y 规则。
+3. 应用通用工程纪律、语言/框架规则和 A11y 规则。
 4. 生成或修改代码后，运行 `scripts/lint-check.sh <目标路径>`。
 5. 若输出包含 `⚠️` 或失败，必须说明问题和修正方案；不要把失败说成成功。
 6. 涉及 UI 组件、弹窗、表单、自定义控件时，提示用户在页面运行后执行 `scripts/a11y-audit.sh <URL>`。
